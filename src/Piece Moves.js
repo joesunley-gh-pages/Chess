@@ -97,7 +97,7 @@ class PieceMoves{
         if (this.#isInCheck(isWhite ? 'K' : 'k', grid)){
         } else {
             let rawMoves = this.#pawnRawMoves(pos, grid);
-            tiles = this.#removeFriendlies(rawMoves, piece, grid);
+            tiles = rawMoves.concat(this.#pawnAttacks(pos, grid));
         }
 
         return tiles;
@@ -106,17 +106,13 @@ class PieceMoves{
     static #pawnRawMoves(pos, grid){
         let isWhite = "RNBQKP".includes(grid[pos.x][pos.y]);
         let validMoves = [];
+        let delta = isWhite ?  1 : -1;
 
-        for (let i  = 0; i < 8; i++){
-            for (let j = 0; j < 8; j++){
-                if (i === pos.x && j === pos.y) {
-                    continue;
-                }
-                if (pos.x === i && (1 === (isWhite ? (pos.y - j) : (j - pos.y)))){
-                    validMoves.push({x: i, y: j});
-                }
-            }
+        let p = {x: pos.x, y: pos.y - delta};
+        if (grid[p.x][p.y] === '-'){
+            validMoves.push(p);
         }
+
 
         if (pos.y === (isWhite ? 6 : 1) && grid[pos.x][isWhite ? 5 : 2] === '-'){
             validMoves.push({x: pos.x, y: (isWhite ? 4 : 3)});
@@ -303,6 +299,29 @@ class PieceMoves{
             }
         }
         return valid;
+    }
+
+    static #pawnAttacks(pos, grid){
+        let isWhite = "RNBQKP".includes(grid[pos.x][pos.y]);
+        let enemyChars = isWhite ? "rnbqkp" : "RNBQKP";
+        let delta = isWhite ? 1 : -1;
+        let tiles = [];
+
+        try {
+            let p = {x: pos.x - 1, y: pos.y - delta}
+            if (enemyChars.includes(grid[p.x][p.y])){
+                tiles.push(p);
+            }
+        } catch {}
+        
+        try {
+            let p = {x: pos.x + 1, y: pos.y + delta}
+            if (enemyChars.includes(grid[p.x][p.y])){
+                tiles.push(p);
+            }
+        } catch {}
+        
+        return tiles;
     }
 
 }

@@ -1,4 +1,4 @@
-let game = new Game("2B5/6Pr/R5Kp/p1P2p2/3N1Q2/b2p4/1n6/5nk1 w - - 0 1");
+let game = new Game("4R3/2np4/ppPP2b1/pR6/2P2p2/5K1n/5B2/2k5 w - - 0 1");
 
 function setup() {
     console.log(game);
