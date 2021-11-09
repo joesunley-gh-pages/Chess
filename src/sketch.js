@@ -6,6 +6,7 @@ function setup() {
     drawBoard();
     drawFenString(game.fenString);
 }
+// Rand Comment
 
 function draw() {
     // drawBoard();
